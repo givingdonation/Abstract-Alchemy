@@ -33,9 +33,30 @@ view model = let pages = (let nextButtonEnable cond = button [onClick NextPage,
                                                               disabled <| not cond,
                                                               style "opacity" <| if cond then "1" else ".5"] [text "Next"]
                   in [
-                              div [] [h1 [] [text "Welcome to Abstract Alchemy!"],
-                                      nextButtonEnable <| [model.alchemySet] == model.combinationTable && model.alchemySet /= ['_']]
-                              ])
+                        div [] [h1 [] [text "Welcome to Abstract Alchemy!"],
+                                p [] [text """This is a game where you make your own alchemy. You work on the combination table,
+                                            where you can add new elements and show what they produce when they combine. The
+                                            goal of this game to make your alchemy follow the right rules so you can move further."""],
+                                p [] [text """Let's begin by adding a new element by clicking the plus,
+                                            then click on the underscore on the top row, and then clicking
+                                            on the element you want to add. You can then give a value to the
+                                            combination of that element with itself, by clicking on the underscore.
+                                            To begin let's make the simplest alchemy; make it so that the combination
+                                            of your element with itself will be itself. So, to move on, your table should now be
+                                            a 1 by 1 table with the combination of 1 element producing itself."""],
+                        nextButtonEnable <| [model.alchemySet] == model.combinationTable && model.alchemySet /= ['_']],
+                        div [] [h2 [] [text "Using the Table"],
+                                p [] [text """Good, now let's play around with the table. Try adding and removing elements and changing them around.
+                                            To move on, fill out a 3 by 3 table completely."""],
+                                nextButtonEnable <| length model.alchemySet == 3 && (List.foldl (&&) True <| List.map (notMember '_') model.combinationTable)],
+                        div [] [h2 [] [text "Alchemical Rules - Clojure"],
+                                p [] [text """Lets try our first rule for Alchemies, the rule of closure.
+                                            Make a 3 by 3 table where all the combinations produce one of
+                                            the three elements you are combining. For example:"""],
+                                blockquote [] [table [] [thead [] [th [] [], th [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']],
+                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]]]
+                        ])
              in let alchemyRange = range 0 (length model.alchemySet - 1) in
   div []
     [ div [] [ Maybe.withDefault (text "Out of Bounds Page") <| getAt model.page pages
@@ -46,7 +67,7 @@ view model = let pages = (let nextButtonEnable cond = button [onClick NextPage,
                        [th [] [button [onClick PopElement] [text "-"], button [onClick PushElement] [text "+"]]]
                        ],
                 tbody [] <| List.map
-                    (\(alchemyElement,row,n) -> tr [] <| append ([th [] [text <| String.fromChar alchemyElement]]) <| List.map
+                    (\(alchemyElement,row,n) -> tr [] <| append ([th [onClick <| ChangeSet n] [text <| String.fromChar alchemyElement]]) <| List.map
                          (\(c, n2) -> td [onClick <| ChangeTable n n2] [text <| String.fromChar c])
                     <| zip row alchemyRange) <| List.map3 (\x y z -> (x,y,z)) model.alchemySet model.combinationTable alchemyRange
                ]

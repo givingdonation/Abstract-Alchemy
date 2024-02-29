@@ -5599,6 +5599,47 @@ var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$core$List$map3 = _List_map3;
 var $elm$core$Basics$neq = _Utils_notEqual;
 var $elm$core$Basics$not = _Basics_not;
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$List$any = F2(
+	function (isOkay, list) {
+		any:
+		while (true) {
+			if (!list.b) {
+				return false;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				if (isOkay(x)) {
+					return true;
+				} else {
+					var $temp$isOkay = isOkay,
+						$temp$list = xs;
+					isOkay = $temp$isOkay;
+					list = $temp$list;
+					continue any;
+				}
+			}
+		}
+	});
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $elm_community$list_extra$List$Extra$notMember = function (x) {
+	return A2(
+		$elm$core$Basics$composeL,
+		$elm$core$Basics$not,
+		$elm$core$List$member(x));
+};
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5616,6 +5657,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$html$Html$table = _VirtualDom_node('table');
@@ -5664,6 +5706,20 @@ var $author$project$Main$view = function (model) {
 							[
 								$elm$html$Html$text('Welcome to Abstract Alchemy!')
 							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('This is a game where you make your own alchemy. You work on the combination table,\n                                            where you can add new elements and show what they produce when they combine. The\n                                            goal of this game to make your alchemy follow the right rules so you can move further.')
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Let\'s begin by adding a new element by clicking the plus,\n                                            then click on the underscore on the top row, and then clicking\n                                            on the element you want to add. You can then give a value to the\n                                            combination of that element with itself, by clicking on the underscore.\n                                            To begin let\'s make the simplest alchemy; make it so that the combination\n                                            of your element with itself will be itself. So, to move on, your table should now be\n                                            a 1 by 1 table with the combination of 1 element producing itself.')
+							])),
 						nextButtonEnable(
 						_Utils_eq(
 							_List_fromArray(
@@ -5674,6 +5730,36 @@ var $author$project$Main$view = function (model) {
 								[
 									_Utils_chr('_')
 								]))))
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$h2,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Using the Table!')
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Good, now let\'s play around with the table. Try adding and removing elements and changing them around.\n                                            To move on, fill out a 3 by 3 table completely.')
+							])),
+						nextButtonEnable(
+						($elm$core$List$length(model.alchemySet) === 3) && A3(
+							$elm$core$List$foldl,
+							$elm$core$Basics$and,
+							true,
+							A2(
+								$elm$core$List$map,
+								$elm_community$list_extra$List$Extra$notMember(
+									_Utils_chr('_')),
+								model.combinationTable)))
 					]))
 			]);
 	}();
@@ -5785,7 +5871,11 @@ var $author$project$Main$view = function (model) {
 											[
 												A2(
 												$elm$html$Html$th,
-												_List_Nil,
+												_List_fromArray(
+													[
+														$elm$html$Html$Events$onClick(
+														$author$project$Main$ChangeSet(n))
+													]),
 												_List_fromArray(
 													[
 														$elm$html$Html$text(
