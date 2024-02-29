@@ -24,13 +24,15 @@ init = {alchemySet = fromList ['_','_'],
         changeTable = always <| fromList [],
         changeSet = always <| fromList []}
 
+zip a b = List.map2 Tuple.pair (toList a) <| toList b
+
 view : Model -> Html Msg
-view model = let pages = (let nextButtonEnable cond = button [onClick Increment,
+view model = let pages = (let nextButtonEnable cond = button [onClick NextPage,
                                                               disabled <| not cond,
                                                               style "opacity" <| if cond then "1" else ".5"] [text "Next"]
                   in fromList [
                               div [] [h1 [] [text "Welcome to Abstract Alchemy!"],
-                                      nextButtonEnable False]
+                                      nextButtonEnable True]
                               ])
              in
   div []
@@ -40,28 +42,27 @@ view model = let pages = (let nextButtonEnable cond = button [onClick Increment,
              , h2 [] [text "Combination Table"]
              ]
     , table [] [thead [] <| List.concat [[th [] []],
-                       toList <| Array.map (\c -> th [onClick Wip] [text <| String.fromChar c]) model.alchemySet,
-                       [th [] [button [onClick Wip] [text "-"], button [onClick Wip] [text "+"]]]
+                       List.map (\(c, i) -> th [onClick <| ChangeSet i] [text <| String.fromChar c]) <| zip model.alchemySet <| initialize (length model.alchemySet) identity,
+                       [th [] [button [onClick PopElement] [text "-"], button [onClick PushElement] [text "+"]]]
                        ],
                 tbody [] <| toList <| Array.map
                     (\(alchemyElement,row) -> tr [] <| toList <| append (fromList [th [] [text <| String.fromChar alchemyElement]]) <| Array.map
-                         (\c -> td [onClick Wip] [text <| String.fromChar c])
-                    row) <| fromList <| List.map2 Tuple.pair (toList model.alchemySet) (toList model.combinationTable)
+                         (\c -> td [onClick <| ChangeTable 0 0] [text <| String.fromChar c])
+                    row) <| fromList <| zip model.alchemySet model.combinationTable
                ]
     , div [] [text "Select an Element Below:", table [style "visibility" <| if model.elementSelectDisplay then "visible" else "collapse"] [
-              tr [] (List.map (\c -> td [] [button [onClick Wip] [text <| String.fromChar c]]) ['💨','🔥','🪨','🌊']),
-              tr [] (List.map (\c -> td [] [button [onClick Wip] [text <| String.fromChar c]]) ['\u{2697}','🔮','⏳','🧪']),
-              tr [] (List.map (\c -> td [] [button [onClick Wip] [text <| String.fromChar c]]) ['🧲','🪙','\u{1F4DC}','\u{1F5DD}'])
+              tr [] (List.map (\c -> td [] [button [onClick <| CharSelected c] [text <| String.fromChar c]]) ['💨','🔥','🪨','🌊']),
+              tr [] (List.map (\c -> td [] [button [onClick <| CharSelected c] [text <| String.fromChar c]]) ['\u{2697}','🔮','⏳','🧪']),
+              tr [] (List.map (\c -> td [] [button [onClick <| CharSelected c] [text <| String.fromChar c]]) ['🧲','🪙','📜','\u{1F5DD}'])
              ]]
     ]
 
-type Msg = Increment | Wip
+type Msg = NextPage | ChangeSet Int | PopElement | PushElement | ChangeTable Int Int | CharSelected Char
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    Increment ->
-      {model | page = 1}
-
-    Wip ->
-      model
+    NextPage ->
+      {model | page = model.page + 1}
+    _ ->
+        model

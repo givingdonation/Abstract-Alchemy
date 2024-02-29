@@ -5286,16 +5286,27 @@ var $elm$browser$Browser$sandbox = function (impl) {
 };
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		if (msg.$ === 'Increment') {
+		if (msg.$ === 'NextPage') {
 			return _Utils_update(
 				model,
-				{page: 1});
+				{page: model.page + 1});
 		} else {
 			return model;
 		}
 	});
-var $author$project$Main$Increment = {$: 'Increment'};
-var $author$project$Main$Wip = {$: 'Wip'};
+var $author$project$Main$ChangeSet = function (a) {
+	return {$: 'ChangeSet', a: a};
+};
+var $author$project$Main$ChangeTable = F2(
+	function (a, b) {
+		return {$: 'ChangeTable', a: a, b: b};
+	});
+var $author$project$Main$CharSelected = function (a) {
+	return {$: 'CharSelected', a: a};
+};
+var $author$project$Main$NextPage = {$: 'NextPage'};
+var $author$project$Main$PopElement = {$: 'PopElement'};
+var $author$project$Main$PushElement = {$: 'PushElement'};
 var $elm$core$Elm$JsArray$appendN = _JsArray_appendN;
 var $elm$core$Elm$JsArray$slice = _JsArray_slice;
 var $elm$core$Array$appendHelpBuilder = F2(
@@ -5541,6 +5552,10 @@ var $elm$core$Array$get = F2(
 	});
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$core$Array$length = function (_v0) {
+	var len = _v0.a;
+	return len;
+};
 var $elm$core$Elm$JsArray$map = _JsArray_map;
 var $elm$core$Array$map = F2(
 	function (func, _v0) {
@@ -5584,10 +5599,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$core$Tuple$pair = F2(
-	function (a, b) {
-		return _Utils_Tuple2(a, b);
-	});
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$html$Html$table = _VirtualDom_node('table');
@@ -5598,6 +5609,18 @@ var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$th = _VirtualDom_node('th');
 var $elm$html$Html$thead = _VirtualDom_node('thead');
 var $elm$html$Html$tr = _VirtualDom_node('tr');
+var $elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
+var $author$project$Main$zip = F2(
+	function (a, b) {
+		return A3(
+			$elm$core$List$map2,
+			$elm$core$Tuple$pair,
+			$elm$core$Array$toList(a),
+			$elm$core$Array$toList(b));
+	});
 var $author$project$Main$view = function (model) {
 	var pages = function () {
 		var nextButtonEnable = function (cond) {
@@ -5605,7 +5628,7 @@ var $author$project$Main$view = function (model) {
 				$elm$html$Html$button,
 				_List_fromArray(
 					[
-						$elm$html$Html$Events$onClick($author$project$Main$Increment),
+						$elm$html$Html$Events$onClick($author$project$Main$NextPage),
 						$elm$html$Html$Attributes$disabled(!cond),
 						A2(
 						$elm$html$Html$Attributes$style,
@@ -5632,7 +5655,7 @@ var $author$project$Main$view = function (model) {
 								[
 									$elm$html$Html$text('Welcome to Abstract Alchemy!')
 								])),
-							nextButtonEnable(false)
+							nextButtonEnable(true)
 						]))
 				]));
 	}();
@@ -5678,23 +5701,31 @@ var $author$project$Main$view = function (model) {
 									[
 										A2($elm$html$Html$th, _List_Nil, _List_Nil)
 									]),
-									$elm$core$Array$toList(
 									A2(
-										$elm$core$Array$map,
-										function (c) {
-											return A2(
-												$elm$html$Html$th,
-												_List_fromArray(
-													[
-														$elm$html$Html$Events$onClick($author$project$Main$Wip)
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(c))
-													]));
-										},
-										model.alchemySet)),
+									$elm$core$List$map,
+									function (_v1) {
+										var c = _v1.a;
+										var i = _v1.b;
+										return A2(
+											$elm$html$Html$th,
+											_List_fromArray(
+												[
+													$elm$html$Html$Events$onClick(
+													$author$project$Main$ChangeSet(i))
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text(
+													$elm$core$String$fromChar(c))
+												]));
+									},
+									A2(
+										$author$project$Main$zip,
+										model.alchemySet,
+										A2(
+											$elm$core$Array$initialize,
+											$elm$core$Array$length(model.alchemySet),
+											$elm$core$Basics$identity))),
 									_List_fromArray(
 									[
 										A2(
@@ -5706,7 +5737,7 @@ var $author$project$Main$view = function (model) {
 												$elm$html$Html$button,
 												_List_fromArray(
 													[
-														$elm$html$Html$Events$onClick($author$project$Main$Wip)
+														$elm$html$Html$Events$onClick($author$project$Main$PopElement)
 													]),
 												_List_fromArray(
 													[
@@ -5716,7 +5747,7 @@ var $author$project$Main$view = function (model) {
 												$elm$html$Html$button,
 												_List_fromArray(
 													[
-														$elm$html$Html$Events$onClick($author$project$Main$Wip)
+														$elm$html$Html$Events$onClick($author$project$Main$PushElement)
 													]),
 												_List_fromArray(
 													[
@@ -5731,9 +5762,9 @@ var $author$project$Main$view = function (model) {
 						$elm$core$Array$toList(
 							A2(
 								$elm$core$Array$map,
-								function (_v1) {
-									var alchemyElement = _v1.a;
-									var row = _v1.b;
+								function (_v2) {
+									var alchemyElement = _v2.a;
+									var row = _v2.b;
 									return A2(
 										$elm$html$Html$tr,
 										_List_Nil,
@@ -5759,7 +5790,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$td,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Events$onClick($author$project$Main$Wip)
+																	$elm$html$Html$Events$onClick(
+																	A2($author$project$Main$ChangeTable, 0, 0))
 																]),
 															_List_fromArray(
 																[
@@ -5770,11 +5802,7 @@ var $author$project$Main$view = function (model) {
 													row))));
 								},
 								$elm$core$Array$fromList(
-									A3(
-										$elm$core$List$map2,
-										$elm$core$Tuple$pair,
-										$elm$core$Array$toList(model.alchemySet),
-										$elm$core$Array$toList(model.combinationTable))))))
+									A2($author$project$Main$zip, model.alchemySet, model.combinationTable)))))
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -5808,7 +5836,8 @@ var $author$project$Main$view = function (model) {
 													$elm$html$Html$button,
 													_List_fromArray(
 														[
-															$elm$html$Html$Events$onClick($author$project$Main$Wip)
+															$elm$html$Html$Events$onClick(
+															$author$project$Main$CharSelected(c))
 														]),
 													_List_fromArray(
 														[
@@ -5839,7 +5868,8 @@ var $author$project$Main$view = function (model) {
 													$elm$html$Html$button,
 													_List_fromArray(
 														[
-															$elm$html$Html$Events$onClick($author$project$Main$Wip)
+															$elm$html$Html$Events$onClick(
+															$author$project$Main$CharSelected(c))
 														]),
 													_List_fromArray(
 														[
@@ -5870,7 +5900,8 @@ var $author$project$Main$view = function (model) {
 													$elm$html$Html$button,
 													_List_fromArray(
 														[
-															$elm$html$Html$Events$onClick($author$project$Main$Wip)
+															$elm$html$Html$Events$onClick(
+															$author$project$Main$CharSelected(c))
 														]),
 													_List_fromArray(
 														[
@@ -5883,7 +5914,7 @@ var $author$project$Main$view = function (model) {
 										[
 											_Utils_chr('🧲'),
 											_Utils_chr('🪙'),
-											_Utils_chr('\uD83D\uDCDC'),
+											_Utils_chr('📜'),
 											_Utils_chr('\uD83D\uDDDD')
 										])))
 							]))
