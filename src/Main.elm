@@ -21,7 +21,7 @@ type alias Model = {alchemySet: List Char,
 init : Model
 init = {alchemySet = [],
         combinationTable = [],
-        page = 0,
+        page = 3,
         elementSelectDisplay = Hidden,
         changeTable = always [],
         changeSet = always []}
@@ -51,7 +51,7 @@ view model = let pages = (let nextButtonEnable cond = button [onClick NextPage,
                                 nextButtonEnable <| length model.alchemySet == 3 && notMember '_' (List.concat model.combinationTable)],
                         div [] [h2 [] [text "Alchemical Rules - Closure"],
                                 p [] [text """Let's try our first rule for alchemies, the rule of closure.
-                                             The rule of closure is about producing only the same elements  that were combined. For example:"""],
+                                             The rule of closure is about producing only the same elements that were combined. For example:"""],
                                 blockquote [] [text "This alchemy has closure - ",table [] [thead [] [th [] [], th [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
                                                         ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
                                                         ,tr [] [ th [] [text <| String.fromChar '🌊'], td [] [text <| String.fromChar '🌊'], th [] [text <| String.fromChar '🌊']]]],
@@ -62,8 +62,30 @@ view model = let pages = (let nextButtonEnable cond = button [onClick NextPage,
                                             the three elements you are combining."""],
                                 nextButtonEnable <| (&&) (length model.alchemySet == 3 && notMember '_' model.alchemySet) <| foldl (&&) True <| List.map (\c -> member c model.alchemySet) <| List.concat model.combinationTable
                                ],
-                        div [] [h2 [] [text "Alchemical Rules - Identity"]],
-                        div [] [h2 [] [text "Alchemical Rules - Inverses"]],
+                        div [] [h2 [] [text "Alchemical Rules - Identity"]
+                                ,p [] [text """The next rule is the rule of identity. Our alchemy needs to have an identity element, which
+                                            is an element that when combined with any other element, the product will be that other element.
+                                            That means that the identity element is a "do nothing" element, since it doesn't cause the other
+                                            element it is combined with to change.
+                                            To move on, with your 3 by 3, make the first element of your alchemy an identity element."""]
+                                , nextButtonEnable <| (&&) (length model.alchemySet == 3 && notMember '_' model.alchemySet) <| Just model.alchemySet == head model.combinationTable && Just model.alchemySet == head (transpose model.combinationTable)
+                               ],
+                        div [] [h2 [] [text "Alchemical Rules - Inverses"]
+                                ,p [] [text """The rule of inverses requires that there are no duplicate elements in any rows or columns of
+                                             your table. This is because every element must occur exactly once for every row or column
+                                             since you must be able to cancel out any element and recombine the result to produce any other
+                                             element. For example:"""],
+                                blockquote [] [text "This alchemy always has inverses - ",table [] [thead [] [th [] [], th [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '🌊'], td [] [text <| String.fromChar '🌊'], th [] [text <| String.fromChar '💨']]]],
+                                blockquote [] [text "This alchemy does not - ",table [] [thead [] [th [] [], th [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '🌊'], td [] [text <| String.fromChar '🌊'], th [] [text <| String.fromChar '🌊']]]]
+                                , p [] [text """To move on, with your 3 by 3, make sure every row and every column have no duplicate elements."""],
+                                nextButtonEnable <| (&&) (length model.alchemySet == 3 && notMember '_' model.alchemySet) <| foldl (&&) True <| List.map (\row -> row == unique row) <| append model.combinationTable <| transpose model.combinationTable
+
+
+                               ],
                         div [] [h2 [] [text "Alchemical Rules - Commutativity"]],
                         div [] [h2 [] [text "All Alchemical Rules"]],
                         div [] [h2 [] [text "Mapping Alchemies"]],
