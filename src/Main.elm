@@ -46,16 +46,34 @@ view model = let pages = (let nextButtonEnable cond = button [onClick NextPage,
                                             a 1 by 1 table with the combination of 1 element producing itself."""],
                         nextButtonEnable <| [model.alchemySet] == model.combinationTable && model.alchemySet /= ['_']],
                         div [] [h2 [] [text "Using the Table"],
-                                p [] [text """Good, now let's play around with the table. Try adding and removing elements and changing them around.
+                                p [] [text """Good, now let's play around with the table. Try adding, removing elements, and changing them around.
                                             To move on, fill out a 3 by 3 table completely."""],
-                                nextButtonEnable <| length model.alchemySet == 3 && (List.foldl (&&) True <| List.map (notMember '_') model.combinationTable)],
-                        div [] [h2 [] [text "Alchemical Rules - Clojure"],
-                                p [] [text """Lets try our first rule for Alchemies, the rule of closure.
-                                            Make a 3 by 3 table where all the combinations produce one of
-                                            the three elements you are combining. For example:"""],
-                                blockquote [] [table [] [thead [] [th [] [], th [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
-                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']],
-                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]]]
+                                nextButtonEnable <| length model.alchemySet == 3 && notMember '_' (List.concat model.combinationTable)],
+                        div [] [h2 [] [text "Alchemical Rules - Closure"],
+                                p [] [text """Let's try our first rule for alchemies, the rule of closure.
+                                             The rule of closure is about producing only the same elements  that were combined. For example:"""],
+                                blockquote [] [text "This alchemy has closure - ",table [] [thead [] [th [] [], th [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '🌊'], td [] [text <| String.fromChar '🌊'], th [] [text <| String.fromChar '🌊']]]],
+                                blockquote [] [text "This alchemy does not - ",table [] [thead [] [th [] [], th [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '💨'], th [] [text <| String.fromChar '🌊']]
+                                                        ,tr [] [ th [] [text <| String.fromChar '🌊'], td [] [text <| String.fromChar '🌊'], th [] [text <| String.fromChar '🔥']]]]
+                               , p [] [text """To move on, make a 3 by 3 table where all the combinations produce one of
+                                            the three elements you are combining."""],
+                                nextButtonEnable <| (&&) (length model.alchemySet == 3 && notMember '_' model.alchemySet) <| foldl (&&) True <| List.map (\c -> member c model.alchemySet) <| List.concat model.combinationTable
+                               ],
+                        div [] [h2 [] [text "Alchemical Rules - Identity"]],
+                        div [] [h2 [] [text "Alchemical Rules - Inverses"]],
+                        div [] [h2 [] [text "Alchemical Rules - Commutativity"]],
+                        div [] [h2 [] [text "All Alchemical Rules"]],
+                        div [] [h2 [] [text "Mapping Alchemies"]],
+                        div [] [h2 [] [text "4 by 4 table, part 1"]],
+                        div [] [h2 [] [text "4 by 4 table, part 2"]],
+                        div [] [h2 [] [text "4 by 4 table, part 3"]],
+                        div [] [h2 [] [text "4 by 4 table, part 4"]],
+                        div [] [h2 [] [text "Perform a Mapping"]],
+                        div [] [h2 [] [text "Make a Mapping"]],
+                        div [] [h2 [] [text "5 by 5 table"]]
                         ])
              in let alchemyRange = range 0 (length model.alchemySet - 1) in
   div []
