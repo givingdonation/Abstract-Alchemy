@@ -4461,7 +4461,7 @@ var $author$project$Main$init = {
 	changeTable: $elm$core$Basics$always(_List_Nil),
 	combinationTable: _List_Nil,
 	elementSelectDisplay: $author$project$Main$Hidden,
-	page: 3
+	page: 7
 };
 var $elm$core$Result$Err = function (a) {
 	return {$: 'Err', a: a};
@@ -5576,7 +5576,6 @@ var $author$project$Main$CharSelected = function (a) {
 var $author$project$Main$NextPage = {$: 'NextPage'};
 var $author$project$Main$PopElement = {$: 'PopElement'};
 var $author$project$Main$PushElement = {$: 'PushElement'};
-var $elm$html$Html$blockquote = _VirtualDom_node('blockquote');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$core$List$concat = function (lists) {
 	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
@@ -5659,16 +5658,313 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$blockquote = _VirtualDom_node('blockquote');
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$html$Html$table = _VirtualDom_node('table');
-var $elm$html$Html$tbody = _VirtualDom_node('tbody');
 var $elm$html$Html$td = _VirtualDom_node('td');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$th = _VirtualDom_node('th');
 var $elm$html$Html$thead = _VirtualDom_node('thead');
 var $elm$html$Html$tr = _VirtualDom_node('tr');
+var $author$project$Main$sampleTable = F4(
+	function (a, b, a2, b2) {
+		return _List_fromArray(
+			[
+				A2(
+				$elm$html$Html$blockquote,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('This alchemy is valid - '),
+						A2(
+						$elm$html$Html$table,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$thead,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2($elm$html$Html$th, _List_Nil, _List_Nil),
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-bottom', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('💨')))
+											])),
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-bottom', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('🌊')))
+											]))
+									])),
+								A2(
+								$elm$html$Html$tr,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-right', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('💨')))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('💨')))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('🌊')))
+											]))
+									])),
+								A2(
+								$elm$html$Html$tr,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-right', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('🌊')))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(a))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(b))
+											]))
+									]))
+							]))
+					])),
+				A2(
+				$elm$html$Html$blockquote,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('This alchemy is not - '),
+						A2(
+						$elm$html$Html$table,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$thead,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2($elm$html$Html$th, _List_Nil, _List_Nil),
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-bottom', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('💨')))
+											])),
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-bottom', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('🌊')))
+											]))
+									])),
+								A2(
+								$elm$html$Html$tr,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-right', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('💨')))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('💨')))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('🌊')))
+											]))
+									])),
+								A2(
+								$elm$html$Html$tr,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$th,
+										_List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'border-right', '5px solid #111111')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(
+													_Utils_chr('🌊')))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(a2))
+											])),
+										A2(
+										$elm$html$Html$td,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(b2))
+											]))
+									]))
+							]))
+					]))
+			]);
+	});
+var $elm_community$list_extra$List$Extra$splitAt = F2(
+	function (n, xs) {
+		return _Utils_Tuple2(
+			A2($elm$core$List$take, n, xs),
+			A2($elm$core$List$drop, n, xs));
+	});
+var $elm_community$list_extra$List$Extra$uncons = function (list) {
+	if (!list.b) {
+		return $elm$core$Maybe$Nothing;
+	} else {
+		var first = list.a;
+		var rest = list.b;
+		return $elm$core$Maybe$Just(
+			_Utils_Tuple2(first, rest));
+	}
+};
+var $elm_community$list_extra$List$Extra$swapAt = F3(
+	function (index1, index2, l) {
+		swapAt:
+		while (true) {
+			if (_Utils_eq(index1, index2) || (index1 < 0)) {
+				return l;
+			} else {
+				if (_Utils_cmp(index1, index2) > 0) {
+					var $temp$index1 = index2,
+						$temp$index2 = index1,
+						$temp$l = l;
+					index1 = $temp$index1;
+					index2 = $temp$index2;
+					l = $temp$l;
+					continue swapAt;
+				} else {
+					var _v0 = A2($elm_community$list_extra$List$Extra$splitAt, index1, l);
+					var part1 = _v0.a;
+					var tail1 = _v0.b;
+					var _v1 = A2($elm_community$list_extra$List$Extra$splitAt, index2 - index1, tail1);
+					var head2 = _v1.a;
+					var tail2 = _v1.b;
+					var _v2 = _Utils_Tuple2(
+						$elm_community$list_extra$List$Extra$uncons(head2),
+						$elm_community$list_extra$List$Extra$uncons(tail2));
+					if ((_v2.a.$ === 'Just') && (_v2.b.$ === 'Just')) {
+						var _v3 = _v2.a.a;
+						var value1 = _v3.a;
+						var part2 = _v3.b;
+						var _v4 = _v2.b.a;
+						var value2 = _v4.a;
+						var part3 = _v4.b;
+						return $elm$core$List$concat(
+							_List_fromArray(
+								[
+									part1,
+									A2($elm$core$List$cons, value2, part2),
+									A2($elm$core$List$cons, value1, part3)
+								]));
+					} else {
+						return l;
+					}
+				}
+			}
+		}
+	});
+var $elm$html$Html$tbody = _VirtualDom_node('tbody');
 var $elm_community$list_extra$List$Extra$rowsLength = function (listOfLists) {
 	if (!listOfLists.b) {
 		return 0;
@@ -5810,8 +6106,212 @@ var $author$project$Main$view = function (model) {
 						($elm$core$List$length(model.alchemySet) === 3) && A2(
 							$elm_community$list_extra$List$Extra$notMember,
 							_Utils_chr('_'),
-							$elm$core$List$concat(model.combinationTable)))
+							_Utils_ap(
+								model.alchemySet,
+								$elm$core$List$concat(model.combinationTable))))
 					])),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h2,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Alchemical Rules - Closure')
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Let\'s try our first rule for alchemies, the rule of closure.\n                                             The rule of closure is about producing only the same elements that were combined. For example:')
+								]))
+						]),
+					_Utils_ap(
+						A4(
+							$author$project$Main$sampleTable,
+							_Utils_chr('🌊'),
+							_Utils_chr('🌊'),
+							_Utils_chr('🌊'),
+							_Utils_chr('🔥')),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$p,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('To move on, make a 3 by 3 table where all the combinations produce one of\n                                            the three elements you are combining.')
+									])),
+								nextButtonEnable(
+								(($elm$core$List$length(model.alchemySet) === 3) && A2(
+									$elm_community$list_extra$List$Extra$notMember,
+									_Utils_chr('_'),
+									model.alchemySet)) && A3(
+									$elm$core$List$foldl,
+									$elm$core$Basics$and,
+									true,
+									A2(
+										$elm$core$List$map,
+										function (c) {
+											return A2($elm$core$List$member, c, model.alchemySet);
+										},
+										$elm$core$List$concat(model.combinationTable))))
+							])))),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h2,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Alchemical Rules - Identity')
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('The next rule is the rule of identity. Our alchemy needs to have an identity element, which\n                                            is an element that when combined with any other element, the product will be that other element.\n                                            That means that the identity element is a "do nothing" element, since it doesn\'t cause the other\n                                            element it is combined with to change. For example:')
+								]))
+						]),
+					_Utils_ap(
+						A4(
+							$author$project$Main$sampleTable,
+							_Utils_chr('🌊'),
+							_Utils_chr('🌊'),
+							_Utils_chr('💨'),
+							_Utils_chr('🌊')),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$p,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('To move on, with your 3 by 3, make the first element of your alchemy an identity element.')
+									])),
+								nextButtonEnable(
+								(($elm$core$List$length(model.alchemySet) === 3) && A2(
+									$elm_community$list_extra$List$Extra$notMember,
+									_Utils_chr('_'),
+									model.alchemySet)) && (_Utils_eq(
+									$elm$core$Maybe$Just(model.alchemySet),
+									$elm$core$List$head(model.combinationTable)) && _Utils_eq(
+									$elm$core$Maybe$Just(model.alchemySet),
+									$elm$core$List$head(
+										$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
+							])))),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h2,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Alchemical Rules - Inverses')
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('The rule of inverses requires that there are no duplicate elements in any rows or columns of\n                                             your table. This is because every element must occur exactly once for every row or column\n                                             since you must be able to cancel out any element and recombine the result to produce any other\n                                             element. For example:')
+								]))
+						]),
+					_Utils_ap(
+						A4(
+							$author$project$Main$sampleTable,
+							_Utils_chr('🌊'),
+							_Utils_chr('💨'),
+							_Utils_chr('🌊'),
+							_Utils_chr('🌊')),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$p,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('To move on, with your 3 by 3, make sure every row and every column have no duplicate elements.')
+									])),
+								nextButtonEnable(
+								(($elm$core$List$length(model.alchemySet) === 3) && A2(
+									$elm_community$list_extra$List$Extra$notMember,
+									_Utils_chr('_'),
+									model.alchemySet)) && A3(
+									$elm$core$List$foldl,
+									$elm$core$Basics$and,
+									true,
+									A2(
+										$elm$core$List$map,
+										function (row) {
+											return _Utils_eq(
+												row,
+												$elm_community$list_extra$List$Extra$unique(row));
+										},
+										A2(
+											$elm$core$List$append,
+											model.combinationTable,
+											$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
+							])))),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h2,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Alchemical Rules - Commutativity')
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('The rule of commutativity says that the order you combine elements in shouldn\'t matter.\n                                            This means that our table should be symmetric along the diagonal. For example:')
+								]))
+						]),
+					_Utils_ap(
+						A4(
+							$author$project$Main$sampleTable,
+							_Utils_chr('🌊'),
+							_Utils_chr('💨'),
+							_Utils_chr('💨'),
+							_Utils_chr('💨')),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$p,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('To move on, make the 3 by 3 table have symmetry across the diagonal.')
+									])),
+								nextButtonEnable(
+								(($elm$core$List$length(model.alchemySet) === 3) && A2(
+									$elm_community$list_extra$List$Extra$notMember,
+									_Utils_chr('_'),
+									model.alchemySet)) && _Utils_eq(
+									model.combinationTable,
+									$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))
+							])))),
 				A2(
 				$elm$html$Html$div,
 				_List_Nil,
@@ -5822,235 +6322,25 @@ var $author$project$Main$view = function (model) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Alchemical Rules - Closure')
+								$elm$html$Html$text('All Alchemical Rules')
 							])),
 						A2(
 						$elm$html$Html$p,
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Let\'s try our first rule for alchemies, the rule of closure.\n                                             The rule of closure is about producing only the same elements that were combined. For example:')
-							])),
-						A2(
-						$elm$html$Html$blockquote,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('This alchemy has closure - '),
-								A2(
-								$elm$html$Html$table,
-								_List_Nil,
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$thead,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2($elm$html$Html$th, _List_Nil, _List_Nil),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											]))
-									]))
-							])),
-						A2(
-						$elm$html$Html$blockquote,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('This alchemy does not - '),
-								A2(
-								$elm$html$Html$table,
-								_List_Nil,
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$thead,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2($elm$html$Html$th, _List_Nil, _List_Nil),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🔥')))
-													]))
-											]))
-									]))
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('To move on, make a 3 by 3 table where all the combinations produce one of\n                                            the three elements you are combining.')
+								$elm$html$Html$text('To move on, make a 3 by 3 table that follows all the rule together: Closure, Identity, Inverses, Commutativity.\n                                           There is exactly one table that follows all the rules for a 3 by 3 table.')
 							])),
 						nextButtonEnable(
-						(($elm$core$List$length(model.alchemySet) === 3) && A2(
+						((($elm$core$List$length(model.alchemySet) === 3) && (A2(
 							$elm_community$list_extra$List$Extra$notMember,
 							_Utils_chr('_'),
-							model.alchemySet)) && A3(
+							model.alchemySet) && (_Utils_eq(
+							$elm$core$Maybe$Just(model.alchemySet),
+							$elm$core$List$head(model.combinationTable)) && _Utils_eq(
+							$elm$core$Maybe$Just(model.alchemySet),
+							$elm$core$List$head(
+								$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))) && A3(
 							$elm$core$List$foldl,
 							$elm$core$Basics$and,
 							true,
@@ -6059,277 +6349,7 @@ var $author$project$Main$view = function (model) {
 								function (c) {
 									return A2($elm$core$List$member, c, model.alchemySet);
 								},
-								$elm$core$List$concat(model.combinationTable))))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Alchemical Rules - Identity')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('The next rule is the rule of identity. Our alchemy needs to have an identity element, which\n                                            is an element that when combined with any other element, the product will be that other element.\n                                            That means that the identity element is a "do nothing" element, since it doesn\'t cause the other\n                                            element it is combined with to change.\n                                            To move on, with your 3 by 3, make the first element of your alchemy an identity element.')
-							])),
-						nextButtonEnable(
-						(($elm$core$List$length(model.alchemySet) === 3) && A2(
-							$elm_community$list_extra$List$Extra$notMember,
-							_Utils_chr('_'),
-							model.alchemySet)) && (_Utils_eq(
-							$elm$core$Maybe$Just(model.alchemySet),
-							$elm$core$List$head(model.combinationTable)) && _Utils_eq(
-							$elm$core$Maybe$Just(model.alchemySet),
-							$elm$core$List$head(
-								$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Alchemical Rules - Inverses')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('The rule of inverses requires that there are no duplicate elements in any rows or columns of\n                                             your table. This is because every element must occur exactly once for every row or column\n                                             since you must be able to cancel out any element and recombine the result to produce any other\n                                             element. For example:')
-							])),
-						A2(
-						$elm$html$Html$blockquote,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('This alchemy always has inverses - '),
-								A2(
-								$elm$html$Html$table,
-								_List_Nil,
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$thead,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2($elm$html$Html$th, _List_Nil, _List_Nil),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													]))
-											]))
-									]))
-							])),
-						A2(
-						$elm$html$Html$blockquote,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('This alchemy does not - '),
-								A2(
-								$elm$html$Html$table,
-								_List_Nil,
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$thead,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2($elm$html$Html$th, _List_Nil, _List_Nil),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('💨')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											])),
-										A2(
-										$elm$html$Html$tr,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$td,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													])),
-												A2(
-												$elm$html$Html$th,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$elm$html$Html$text(
-														$elm$core$String$fromChar(
-															_Utils_chr('🌊')))
-													]))
-											]))
-									]))
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('To move on, with your 3 by 3, make sure every row and every column have no duplicate elements.')
-							])),
-						nextButtonEnable(
-						(($elm$core$List$length(model.alchemySet) === 3) && A2(
-							$elm_community$list_extra$List$Extra$notMember,
-							_Utils_chr('_'),
-							model.alchemySet)) && A3(
+								$elm$core$List$concat(model.combinationTable)))) && A3(
 							$elm$core$List$foldl,
 							$elm$core$Basics$and,
 							true,
@@ -6344,45 +6364,6 @@ var $author$project$Main$view = function (model) {
 									$elm$core$List$append,
 									model.combinationTable,
 									$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Alchemical Rules - Commutativity')
-							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('All Alchemical Rules')
-							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Mapping Alchemies')
-							]))
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -6435,6 +6416,44 @@ var $author$project$Main$view = function (model) {
 							[
 								$elm$html$Html$text('4 by 4 table, part 4')
 							]))
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$h2,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Mapping Alchemies')
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('An alchemy can be changed into another through a mapping.\n                                        Mappings take every element in one mapping and change them\n                                        with a corresponding one in another alchemy. Two alchemies\n                                        are structured the same way if they have a one-to-one Mapping\n                                        between them. To move on, use the following mapping to turn your\n                                        alchemy into another one of the same structure.')
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						A3(
+							$elm$core$List$map2,
+							F2(
+								function (c, c2) {
+									return A2(
+										$elm$html$Html$p,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												$elm$core$String$fromChar(c) + (' → ' + $elm$core$String$fromChar(c2)))
+											]));
+								}),
+							model.alchemySet,
+							A3($elm_community$list_extra$List$Extra$swapAt, 1, 2, model.alchemySet)))
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -6528,7 +6547,8 @@ var $author$project$Main$view = function (model) {
 											_List_fromArray(
 												[
 													$elm$html$Html$Events$onClick(
-													$author$project$Main$ChangeSet(i))
+													$author$project$Main$ChangeSet(i)),
+													A2($elm$html$Html$Attributes$style, 'border-bottom', '5px solid #111111')
 												]),
 											_List_fromArray(
 												[
@@ -6588,7 +6608,8 @@ var $author$project$Main$view = function (model) {
 												_List_fromArray(
 													[
 														$elm$html$Html$Events$onClick(
-														$author$project$Main$ChangeSet(n))
+														$author$project$Main$ChangeSet(n)),
+														A2($elm$html$Html$Attributes$style, 'border-right', '5px solid #111111')
 													]),
 												_List_fromArray(
 													[
@@ -6628,19 +6649,19 @@ var $author$project$Main$view = function (model) {
 					])),
 				A2(
 				$elm$html$Html$div,
-				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$Attributes$style,
+						'visibility',
+						(!_Utils_eq(model.elementSelectDisplay, $author$project$Main$Hidden)) ? 'visible' : 'collapse')
+					]),
 				_List_fromArray(
 					[
 						$elm$html$Html$text('Select an Element Below:'),
 						A2(
 						$elm$html$Html$table,
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$Attributes$style,
-								'visibility',
-								(!_Utils_eq(model.elementSelectDisplay, $author$project$Main$Hidden)) ? 'visible' : 'collapse')
-							]),
+						_List_Nil,
 						_List_fromArray(
 							[
 								A2(
@@ -6673,7 +6694,8 @@ var $author$project$Main$view = function (model) {
 											_Utils_chr('💨'),
 											_Utils_chr('🔥'),
 											_Utils_chr('🪨'),
-											_Utils_chr('🌊')
+											_Utils_chr('🌊'),
+											_Utils_chr('🌌')
 										]))),
 								A2(
 								$elm$html$Html$tr,
@@ -6705,7 +6727,8 @@ var $author$project$Main$view = function (model) {
 											_Utils_chr('\u2697'),
 											_Utils_chr('🔮'),
 											_Utils_chr('⏳'),
-											_Utils_chr('🧪')
+											_Utils_chr('🧪'),
+											_Utils_chr('🐉')
 										]))),
 								A2(
 								$elm$html$Html$tr,
@@ -6737,7 +6760,8 @@ var $author$project$Main$view = function (model) {
 											_Utils_chr('🧲'),
 											_Utils_chr('🪙'),
 											_Utils_chr('📜'),
-											_Utils_chr('\uD83D\uDDDD')
+											_Utils_chr('\uD83D\uDDDD'),
+											_Utils_chr('🧂')
 										])))
 							]))
 					]))
