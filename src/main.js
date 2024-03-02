@@ -4461,7 +4461,7 @@ var $author$project$Main$init = {
 	changeTable: $elm$core$Basics$always(_List_Nil),
 	combinationTable: _List_Nil,
 	elementSelectDisplay: $author$project$Main$Hidden,
-	page: 7
+	page: 0
 };
 var $elm$core$Result$Err = function (a) {
 	return {$: 'Err', a: a};
@@ -5658,6 +5658,10 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
 var $elm$html$Html$blockquote = _VirtualDom_node('blockquote');
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
@@ -6020,72 +6024,147 @@ var $elm_community$list_extra$List$Extra$uniqueHelp = F4(
 var $elm_community$list_extra$List$Extra$unique = function (list) {
 	return A4($elm_community$list_extra$List$Extra$uniqueHelp, $elm$core$Basics$identity, _List_Nil, list, _List_Nil);
 };
-var $elm$core$Tuple$pair = F2(
-	function (a, b) {
-		return _Utils_Tuple2(a, b);
-	});
-var $author$project$Main$zip = $elm$core$List$map2($elm$core$Tuple$pair);
 var $author$project$Main$view = function (model) {
-	var pages = function () {
-		var nextButtonEnable = function (cond) {
-			return A2(
-				$elm$html$Html$button,
+	var zip = $elm$core$List$map2($elm$core$Tuple$pair);
+	var nextButtonEnable = function (cond) {
+		return A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Events$onClick($author$project$Main$NextPage),
+					$elm$html$Html$Attributes$disabled(!cond),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'opacity',
+					cond ? '1' : '.5')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Next')
+				]));
+	};
+	var pages = _List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h1,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Welcome to Abstract Alchemy!')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('This is a game where you make your own alchemy. You work on the combination table,\n                                where you can add new elements and show what they produce when they combine. The\n                                goal of this game to make your alchemy follow the right rules so you can move further.')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Let\'s begin by adding a new element by clicking the plus,\n                                then click on the underscore on the top row, and then clicking\n                                on the element you want to add. You can then give a value to the\n                                combination of that element with itself, by clicking on the underscore.\n                                To begin let\'s make the simplest alchemy; make it so that the combination\n                                of your element with itself will be itself. So, to move on, your table should now be\n                                a 1 by 1 table with the combination of 1 element producing itself.')
+						])),
+					nextButtonEnable(
+					_Utils_eq(
+						_List_fromArray(
+							[model.alchemySet]),
+						model.combinationTable) && (!_Utils_eq(
+						model.alchemySet,
+						_List_fromArray(
+							[
+								_Utils_chr('_')
+							]))))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Using the Table')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Good, now let\'s play around with the table. Try adding, removing elements, and changing them around.\n                            To move on, fill out a 3 by 3 table completely.')
+						])),
+					nextButtonEnable(
+					($elm$core$List$length(model.alchemySet) === 3) && A2(
+						$elm_community$list_extra$List$Extra$notMember,
+						_Utils_chr('_'),
+						_Utils_ap(
+							model.alchemySet,
+							$elm$core$List$concat(model.combinationTable))))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_Utils_ap(
 				_List_fromArray(
 					[
-						$elm$html$Html$Events$onClick($author$project$Main$NextPage),
-						$elm$html$Html$Attributes$disabled(!cond),
 						A2(
-						$elm$html$Html$Attributes$style,
-						'opacity',
-						cond ? '1' : '.5')
+						$elm$html$Html$h2,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Alchemical Rules - Closure')
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Let\'s try our first rule for alchemies, the rule of closure.\n                                              The rule of closure is about producing only the same elements\n                                              that were combined. For example:')
+							]))
 					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Next')
-					]));
-		};
-		return _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h1,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Welcome to Abstract Alchemy!')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('This is a game where you make your own alchemy. You work on the combination table,\n                                            where you can add new elements and show what they produce when they combine. The\n                                            goal of this game to make your alchemy follow the right rules so you can move further.')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Let\'s begin by adding a new element by clicking the plus,\n                                            then click on the underscore on the top row, and then clicking\n                                            on the element you want to add. You can then give a value to the\n                                            combination of that element with itself, by clicking on the underscore.\n                                            To begin let\'s make the simplest alchemy; make it so that the combination\n                                            of your element with itself will be itself. So, to move on, your table should now be\n                                            a 1 by 1 table with the combination of 1 element producing itself.')
-							])),
-						nextButtonEnable(
-						_Utils_eq(
-							_List_fromArray(
-								[model.alchemySet]),
-							model.combinationTable) && (!_Utils_eq(
-							model.alchemySet,
+				_Utils_ap(
+					A4(
+						$author$project$Main$sampleTable,
+						_Utils_chr('🌊'),
+						_Utils_chr('🌊'),
+						_Utils_chr('🌊'),
+						_Utils_chr('🔥')),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
 							_List_fromArray(
 								[
-									_Utils_chr('_')
-								]))))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
+									$elm$html$Html$text('To move on, make a 3 by 3 table where all the combinations produce one of\n                                            the three elements you are combining.')
+								])),
+							nextButtonEnable(
+							(($elm$core$List$length(model.alchemySet) === 3) && A2(
+								$elm_community$list_extra$List$Extra$notMember,
+								_Utils_chr('_'),
+								model.alchemySet)) && A3(
+								$elm$core$List$foldl,
+								$elm$core$Basics$and,
+								true,
+								A2(
+									$elm$core$List$map,
+									function (c) {
+										return A2($elm$core$List$member, c, model.alchemySet);
+									},
+									$elm$core$List$concat(model.combinationTable))))
+						])))),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_Utils_ap(
 				_List_fromArray(
 					[
 						A2(
@@ -6093,281 +6172,47 @@ var $author$project$Main$view = function (model) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Using the Table')
+								$elm$html$Html$text('Alchemical Rules - Identity')
 							])),
 						A2(
 						$elm$html$Html$p,
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Good, now let\'s play around with the table. Try adding, removing elements, and changing them around.\n                                            To move on, fill out a 3 by 3 table completely.')
-							])),
-						nextButtonEnable(
-						($elm$core$List$length(model.alchemySet) === 3) && A2(
-							$elm_community$list_extra$List$Extra$notMember,
-							_Utils_chr('_'),
-							_Utils_ap(
-								model.alchemySet,
-								$elm$core$List$concat(model.combinationTable))))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
+								$elm$html$Html$text('The next rule is the rule of identity. Our alchemy needs to have an identity element, which\n                            is an element that when combined with any other element, the product will be that other element.\n                            That means that the identity element is a "do nothing" element, since it doesn\'t cause the other\n                            element it is combined with to change. For example:')
+							]))
+					]),
 				_Utils_ap(
+					A4(
+						$author$project$Main$sampleTable,
+						_Utils_chr('🌊'),
+						_Utils_chr('🌊'),
+						_Utils_chr('💨'),
+						_Utils_chr('🌊')),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$h2,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Alchemical Rules - Closure')
-								])),
 							A2(
 							$elm$html$Html$p,
 							_List_Nil,
 							_List_fromArray(
 								[
-									$elm$html$Html$text('Let\'s try our first rule for alchemies, the rule of closure.\n                                             The rule of closure is about producing only the same elements that were combined. For example:')
-								]))
-						]),
-					_Utils_ap(
-						A4(
-							$author$project$Main$sampleTable,
-							_Utils_chr('🌊'),
-							_Utils_chr('🌊'),
-							_Utils_chr('🌊'),
-							_Utils_chr('🔥')),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('To move on, make a 3 by 3 table where all the combinations produce one of\n                                            the three elements you are combining.')
-									])),
-								nextButtonEnable(
-								(($elm$core$List$length(model.alchemySet) === 3) && A2(
-									$elm_community$list_extra$List$Extra$notMember,
-									_Utils_chr('_'),
-									model.alchemySet)) && A3(
-									$elm$core$List$foldl,
-									$elm$core$Basics$and,
-									true,
-									A2(
-										$elm$core$List$map,
-										function (c) {
-											return A2($elm$core$List$member, c, model.alchemySet);
-										},
-										$elm$core$List$concat(model.combinationTable))))
-							])))),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_Utils_ap(
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$h2,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Alchemical Rules - Identity')
+									$elm$html$Html$text('To move on, with your 3 by 3, make the first element of your alchemy an identity element.')
 								])),
-							A2(
-							$elm$html$Html$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('The next rule is the rule of identity. Our alchemy needs to have an identity element, which\n                                            is an element that when combined with any other element, the product will be that other element.\n                                            That means that the identity element is a "do nothing" element, since it doesn\'t cause the other\n                                            element it is combined with to change. For example:')
-								]))
-						]),
-					_Utils_ap(
-						A4(
-							$author$project$Main$sampleTable,
-							_Utils_chr('🌊'),
-							_Utils_chr('🌊'),
-							_Utils_chr('💨'),
-							_Utils_chr('🌊')),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('To move on, with your 3 by 3, make the first element of your alchemy an identity element.')
-									])),
-								nextButtonEnable(
-								(($elm$core$List$length(model.alchemySet) === 3) && A2(
-									$elm_community$list_extra$List$Extra$notMember,
-									_Utils_chr('_'),
-									model.alchemySet)) && (_Utils_eq(
-									$elm$core$Maybe$Just(model.alchemySet),
-									$elm$core$List$head(model.combinationTable)) && _Utils_eq(
-									$elm$core$Maybe$Just(model.alchemySet),
-									$elm$core$List$head(
-										$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
-							])))),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_Utils_ap(
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$h2,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Alchemical Rules - Inverses')
-								])),
-							A2(
-							$elm$html$Html$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('The rule of inverses requires that there are no duplicate elements in any rows or columns of\n                                             your table. This is because every element must occur exactly once for every row or column\n                                             since you must be able to cancel out any element and recombine the result to produce any other\n                                             element. For example:')
-								]))
-						]),
-					_Utils_ap(
-						A4(
-							$author$project$Main$sampleTable,
-							_Utils_chr('🌊'),
-							_Utils_chr('💨'),
-							_Utils_chr('🌊'),
-							_Utils_chr('🌊')),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('To move on, with your 3 by 3, make sure every row and every column have no duplicate elements.')
-									])),
-								nextButtonEnable(
-								(($elm$core$List$length(model.alchemySet) === 3) && A2(
-									$elm_community$list_extra$List$Extra$notMember,
-									_Utils_chr('_'),
-									model.alchemySet)) && A3(
-									$elm$core$List$foldl,
-									$elm$core$Basics$and,
-									true,
-									A2(
-										$elm$core$List$map,
-										function (row) {
-											return _Utils_eq(
-												row,
-												$elm_community$list_extra$List$Extra$unique(row));
-										},
-										A2(
-											$elm$core$List$append,
-											model.combinationTable,
-											$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
-							])))),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_Utils_ap(
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$h2,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Alchemical Rules - Commutativity')
-								])),
-							A2(
-							$elm$html$Html$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('The rule of commutativity says that the order you combine elements in shouldn\'t matter.\n                                            This means that our table should be symmetric along the diagonal. For example:')
-								]))
-						]),
-					_Utils_ap(
-						A4(
-							$author$project$Main$sampleTable,
-							_Utils_chr('🌊'),
-							_Utils_chr('💨'),
-							_Utils_chr('💨'),
-							_Utils_chr('💨')),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('To move on, make the 3 by 3 table have symmetry across the diagonal.')
-									])),
-								nextButtonEnable(
-								(($elm$core$List$length(model.alchemySet) === 3) && A2(
-									$elm_community$list_extra$List$Extra$notMember,
-									_Utils_chr('_'),
-									model.alchemySet)) && _Utils_eq(
-									model.combinationTable,
-									$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))
-							])))),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('All Alchemical Rules')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('To move on, make a 3 by 3 table that follows all the rule together: Closure, Identity, Inverses, Commutativity.\n                                           There is exactly one table that follows all the rules for a 3 by 3 table.')
-							])),
-						nextButtonEnable(
-						((($elm$core$List$length(model.alchemySet) === 3) && (A2(
-							$elm_community$list_extra$List$Extra$notMember,
-							_Utils_chr('_'),
-							model.alchemySet) && (_Utils_eq(
-							$elm$core$Maybe$Just(model.alchemySet),
-							$elm$core$List$head(model.combinationTable)) && _Utils_eq(
-							$elm$core$Maybe$Just(model.alchemySet),
-							$elm$core$List$head(
-								$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))) && A3(
-							$elm$core$List$foldl,
-							$elm$core$Basics$and,
-							true,
-							A2(
-								$elm$core$List$map,
-								function (c) {
-									return A2($elm$core$List$member, c, model.alchemySet);
-								},
-								$elm$core$List$concat(model.combinationTable)))) && A3(
-							$elm$core$List$foldl,
-							$elm$core$Basics$and,
-							true,
-							A2(
-								$elm$core$List$map,
-								function (row) {
-									return _Utils_eq(
-										row,
-										$elm_community$list_extra$List$Extra$unique(row));
-								},
-								A2(
-									$elm$core$List$append,
-									model.combinationTable,
+							nextButtonEnable(
+							(($elm$core$List$length(model.alchemySet) === 3) && A2(
+								$elm_community$list_extra$List$Extra$notMember,
+								_Utils_chr('_'),
+								model.alchemySet)) && (_Utils_eq(
+								$elm$core$Maybe$Just(model.alchemySet),
+								$elm$core$List$head(model.combinationTable)) && _Utils_eq(
+								$elm$core$Maybe$Just(model.alchemySet),
+								$elm$core$List$head(
 									$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
+						])))),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_Utils_ap(
 				_List_fromArray(
 					[
 						A2(
@@ -6375,127 +6220,280 @@ var $author$project$Main$view = function (model) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('4 by 4 table, part 1')
-							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('4 by 4 table, part 2')
-							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('4 by 4 table, part 3')
-							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('4 by 4 table, part 4')
-							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Mapping Alchemies')
+								$elm$html$Html$text('Alchemical Rules - Inverses')
 							])),
 						A2(
 						$elm$html$Html$p,
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('An alchemy can be changed into another through a mapping.\n                                        Mappings take every element in one mapping and change them\n                                        with a corresponding one in another alchemy. Two alchemies\n                                        are structured the same way if they have a one-to-one Mapping\n                                        between them. To move on, use the following mapping to turn your\n                                        alchemy into another one of the same structure.')
+								$elm$html$Html$text('The rule of inverses requires that there are no duplicate elements in any rows or columns of\n                            your table. This is because every element must occur exactly once for every row or column\n                            since you must be able to cancel out any element and recombine the result to produce any other\n                            element. For example:')
+							]))
+					]),
+				_Utils_ap(
+					A4(
+						$author$project$Main$sampleTable,
+						_Utils_chr('🌊'),
+						_Utils_chr('💨'),
+						_Utils_chr('🌊'),
+						_Utils_chr('🌊')),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('To move on, with your 3 by 3, make sure every row and every column have no duplicate elements.')
+								])),
+							nextButtonEnable(
+							(($elm$core$List$length(model.alchemySet) === 3) && A2(
+								$elm_community$list_extra$List$Extra$notMember,
+								_Utils_chr('_'),
+								model.alchemySet)) && A3(
+								$elm$core$List$foldl,
+								$elm$core$Basics$and,
+								true,
+								A2(
+									$elm$core$List$map,
+									function (row) {
+										return _Utils_eq(
+											row,
+											$elm_community$list_extra$List$Extra$unique(row));
+									},
+									A2(
+										$elm$core$List$append,
+										model.combinationTable,
+										$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
+						])))),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_Utils_ap(
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$h2,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Alchemical Rules - Commutativity')
 							])),
 						A2(
-						$elm$html$Html$div,
-						_List_Nil,
-						A3(
-							$elm$core$List$map2,
-							F2(
-								function (c, c2) {
-									return A2(
-										$elm$html$Html$p,
-										_List_Nil,
-										_List_fromArray(
-											[
-												$elm$html$Html$text(
-												$elm$core$String$fromChar(c) + (' → ' + $elm$core$String$fromChar(c2)))
-											]));
-								}),
-							model.alchemySet,
-							A3($elm_community$list_extra$List$Extra$swapAt, 1, 2, model.alchemySet)))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h2,
+						$elm$html$Html$p,
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Perform a Mapping')
+								$elm$html$Html$text('The rule of commutativity says that the order you combine elements in shouldn\'t matter.\n                            This means that our table should be symmetric along the diagonal. For example:')
 							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
+					]),
+				_Utils_ap(
+					A4(
+						$author$project$Main$sampleTable,
+						_Utils_chr('🌊'),
+						_Utils_chr('💨'),
+						_Utils_chr('💨'),
+						_Utils_chr('💨')),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('To move on, make the 3 by 3 table have symmetry across the diagonal.')
+								])),
+							nextButtonEnable(
+							(($elm$core$List$length(model.alchemySet) === 3) && A2(
+								$elm_community$list_extra$List$Extra$notMember,
+								_Utils_chr('_'),
+								model.alchemySet)) && _Utils_eq(
+								model.combinationTable,
+								$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))
+						])))),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('All Alchemical Rules')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('To move on, make a 3 by 3 table that follows all the rule together: Closure, Identity, Inverses, Commutativity.\n                            There is exactly one table that follows all the rules for a 3 by 3 table.')
+						])),
+					nextButtonEnable(
+					((($elm$core$List$length(model.alchemySet) === 3) && (A2(
+						$elm_community$list_extra$List$Extra$notMember,
+						_Utils_chr('_'),
+						model.alchemySet) && (_Utils_eq(
+						$elm$core$Maybe$Just(model.alchemySet),
+						$elm$core$List$head(model.combinationTable)) && _Utils_eq(
+						$elm$core$Maybe$Just(model.alchemySet),
+						$elm$core$List$head(
+							$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))) && A3(
+						$elm$core$List$foldl,
+						$elm$core$Basics$and,
+						true,
 						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Make a Mapping')
-							]))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
+							$elm$core$List$map,
+							function (c) {
+								return A2($elm$core$List$member, c, model.alchemySet);
+							},
+							$elm$core$List$concat(model.combinationTable)))) && A3(
+						$elm$core$List$foldl,
+						$elm$core$Basics$and,
+						true,
 						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('5 by 5 table')
-							]))
-					]))
-			]);
-	}();
+							$elm$core$List$map,
+							function (row) {
+								return _Utils_eq(
+									row,
+									$elm_community$list_extra$List$Extra$unique(row));
+							},
+							A2(
+								$elm$core$List$append,
+								model.combinationTable,
+								$elm_community$list_extra$List$Extra$transpose(model.combinationTable)))))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('4 by 4 table, part 1')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('4 by 4 table, part 2')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('4 by 4 table, part 3')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('4 by 4 table, part 4')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Mapping Alchemies')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('An alchemy can be changed into another through a mapping.\n                        Mappings take every element in one mapping and change them\n                        with a corresponding one in another alchemy. Two alchemies\n                        are structured the same way if they have a one-to-one Mapping\n                        between them. To move on, use the following mapping to turn your\n                        alchemy into another one of the same structure.')
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					A3(
+						$elm$core$List$map2,
+						F2(
+							function (c, c2) {
+								return A2(
+									$elm$html$Html$p,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$elm$html$Html$text(
+											$elm$core$String$fromChar(c) + (' → ' + $elm$core$String$fromChar(c2)))
+										]));
+							}),
+						model.alchemySet,
+						A3($elm_community$list_extra$List$Extra$swapAt, 1, 2, model.alchemySet)))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Perform a Mapping')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Make a Mapping')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('5 by 5 table')
+						]))
+				]))
+		]);
 	var alchemyRange = A2(
 		$elm$core$List$range,
 		0,
@@ -6556,7 +6554,7 @@ var $author$project$Main$view = function (model) {
 													$elm$core$String$fromChar(c))
 												]));
 									},
-									A2($author$project$Main$zip, model.alchemySet, alchemyRange)),
+									A2(zip, model.alchemySet, alchemyRange)),
 									_List_fromArray(
 									[
 										A2(
@@ -6635,7 +6633,7 @@ var $author$project$Main$view = function (model) {
 															$elm$core$String$fromChar(c))
 														]));
 											},
-											A2($author$project$Main$zip, row, alchemyRange))));
+											A2(zip, row, alchemyRange))));
 							},
 							A4(
 								$elm$core$List$map3,
