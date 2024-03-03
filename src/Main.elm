@@ -31,7 +31,7 @@ init : Model
 init = {
     alchemySet = [],
     combinationTable = [],
-    page = 9,
+    page = 0,
     elementSelectDisplay = Hidden,
     changeTable = always [],
     changeSet = always [],
@@ -103,14 +103,14 @@ view model =
               h1 [] [text "Welcome to Abstract Alchemy!"],
                   p [] [text """This is a game where you make your own alchemy. You work on the combination table,
                                 where you can add new elements and show what they produce when they combine. The
-                                goal of this game to make your alchemy follow the right rules so you can move further."""],
-                  p [] [text """Let's begin by adding a new element by clicking the plus,
-                                then click on the underscore on the top row, and then clicking
+                                goal of this game is to make your alchemy follow the right rules so you can move further."""],
+                  p [] [text """Let's begin by adding a new element by clicking the plus.
+                                Then click on the underscore in the top row, and then click
                                 on the element you want to add. You can then give a value to the
-                                combination of that element with itself, by clicking on the underscore.
+                                combination of that element with itself, by clicking on the underscore in the table.
                                 To begin let's make the simplest alchemy; make it so that the combination
                                 of your element with itself will be itself. So, to move on, your table should now be
-                                a 1 by 1 table with the combination of 1 element producing itself."""],
+                                a 1 by 1 table with the combination of 1 element with itself producing itself."""],
                   nextButtonEnable <| [model.alchemySet] == model.combinationTable && model.alchemySet /= ['_']
              ],
 
@@ -185,7 +185,7 @@ view model =
          div [] [
               h2 [] [text "Row/Column Swapping"],
               p [] [text """we can swap the columns or the rows of any alchemy, and everything will stay the same.
-                        Here is a button that will do both to the 2nd and 3rd columns and the 2nd and 3rd rows.
+                        Here is a button that will swap the 2nd and 3rd columns and the 2nd and 3rd rows.
                         This essentially just swaps the order of the elements, but doesn't change what they do.""" ],
               button [onClick <| Messages <| [ NextPage, SwapRowAndColumn 1 2 ]] [text "Swap 2nd and 3rd; Next"]
              ],
@@ -194,7 +194,7 @@ view model =
                 p [] [text """An alchemy can be changed into another through a mapping.
                         Mappings take every element in one alchemy and change them
                         with a corresponding one in another alchemy. Two alchemies
-                        are structured the same way if they have a one-to-one Mapping
+                        are structured exactly the same way if they have a one-to-one Mapping
                         between them. To move on, use the following mapping to turn your
                         alchemy back into the original, before order swapping."""],
                 div [] (List.map2 (\c c2 -> p [] [
@@ -209,23 +209,25 @@ view model =
 
          div [] [
               h2 [] [text "4 by 4 table, part 1"],
-              p [] [text """Let's now get into some serious alchemy. We want to make a specific structure for your table now.
+              p [] [text """Let's now get into some serious alchemy. We want to make a specific structure for your table.
                     To move on, make your table one that fills in the missing table from the example below and also follows all
-                            previous rules. The identity element has to be the one provided."""],
+                            previous rules."""],
               text "This is your template, fill in the '-' as you see fit while following the rules:",
               staticTableTemplate [identityElement, '-', '-', '-']
                   [repeat 4 '-'
-                  ,repeat 4 '-'
-                  , [ '-', '-', '-', identityElement ]
+                  , [ '-', identityElement, '-', '-' ]
+                  , [ '-', '-', identityElement, '-' ]
                   ,repeat 4 '-'],
               nextButtonEnable
-                  <| groupCheck && Just identityElement
-                  == (getAt 1 <| Maybe.withDefault [] <| getAt 1 model.combinationTable) && 4 == (length model.alchemySet)
+                  <| groupCheck
+                    && Just identityElement == (getAt 1 <| Maybe.withDefault [] <| getAt 1 model.combinationTable)
+                    && Just identityElement == (getAt 2 <| Maybe.withDefault [] <| getAt 2 model.combinationTable)
+                    && 4 == (length model.alchemySet)
              ],
 
          div [] [h2 [] [text "4 by 4 table, part 2"]
             , p [] [text """To move on, make your table one that fills in the new missing table and also follows all
-                            previous rules. The identity element has to be the one provided."""],
+                            previous rules."""],
               text "This is your template, fill in the '-' as you see fit while following the rules:",
               staticTableTemplate [identityElement, '-', '-', '-']
                   [repeat 4 '-'
@@ -239,7 +241,7 @@ view model =
 
          div [] [h2 [] [text "4 by 4 table, part 3"]
             , p [] [text """To move on, make your table one that fills in the new missing table and also follows all
-                            previous rules. The identity element has to be the one provided."""],
+                            previous rules."""],
               text "This is your template, fill in the '-' as you see fit while following the rules:",
               staticTableTemplate [identityElement, '-', '-', '-']
                   [repeat 4 '-'
@@ -253,7 +255,7 @@ view model =
 
          div [] [h2 [] [text "4 by 4 table, part 4"]
             , p [] [text """To move on, make your table one that fills in the new missing table and also follows all
-                            previous rules. The identity element has to be the one provided."""],
+                            previous rules."""],
               text "This is your template, fill in the '-' as you see fit while following the rules:",
               staticTableTemplate [identityElement, '-', '-', '-']
                   [repeat 4 '-'
@@ -265,16 +267,72 @@ view model =
                   == (getAt 3 <| Maybe.withDefault [] <| getAt 2 model.combinationTable) && 4 == (length model.alchemySet)
                 ],
 
-         div [] [h2 [] [text "Perform a Mapping"]],
+         div [] [h2 [] [text "Mapping to part 2"]
+                , p [] [text """These past 4 tables are the only possible ways of making an alchemy that follows the 4 rules,
+                         however, some of these tables are identical to each other, just with a mapping. To move on,
+                         perform a mapping from part 4's table into part 2's table, use the order swap to help you. As
+                         a reminder, the part 2 table has its identities in the following places:"""]
+                , staticTableTemplate model.previousSet
+                  [identityElement :: repeat 3 '-'
+                  , [ '-', '-', '-', identityElement ]
+                  , [ '-', '-', identityElement, '-' ]
+                  , [ '-', identityElement, '-', '-' ]
+                  ]
+                , button [onClick <| SwapRowAndColumn 1 2] [text "Swap 2nd and 3rd"]
+                , nextButtonEnable
+                    <| groupCheck && model.alchemySet == model.previousSet && Just identityElement
+                  == (getAt 3 <| Maybe.withDefault [] <| getAt 1 model.combinationTable) && 4 == (length model.alchemySet)
+                ],
 
-         div [] [h2 [] [text "Make a Mapping"]],
+         div [] [h2 [] [text "Mapping from part 2"]
+                , p [] [text """Now lets make a mapping from part 2 to part 3. As a reminder,
+                              the part 3 table has identities like this:"""]
+                , staticTableTemplate model.previousSet
+                  [identityElement :: repeat 3 '-'
+                  , [ '-', '-', identityElement, '-' ]
+                  , [ '-', identityElement, '-', '-' ]
+                  , [ '-', '-', '-', identityElement ]
+                  ]
+                , button [onClick <| SwapRowAndColumn 2 3] [text "Swap 3rd and 4th"]
+                , nextButtonEnable
+                    <| groupCheck  && model.alchemySet == model.previousSet && Just identityElement
+                  == (getAt 2 <| Maybe.withDefault [] <| getAt 1 model.combinationTable) && 4 == (length model.alchemySet)
+                ],
 
-         div [] [h2 [] [text "5 by 5 table"]]
+         {-div [] [h2 [] [text "Mapping to part 1"]
+                , p [] [text """The previous examples show that the structures of tables 2, 3, and 4 are identical.
+                              Lets try to make a mapping from part 3 to part 1. As a reminder, heres the identities of
+                              part 1."""]
+                , staticTableTemplate model.previousSet
+                  [identityElement :: repeat 3 '-'
+                  , [ '-', identityElement, '-', '-' ]
+                  , [ '-', '-', identityElement, '-' ]
+                  , [ '-', '-', '-', identityElement ]
+                  ]
+                , button [onClick <| SwapRowAndColumn 1 2] [text "Swap 2nd and 3rd"]
+                , button [onClick <| SwapRowAndColumn 2 3] [text "Swap 3rd and 4th"]
+                , nextButtonEnable
+                    <| groupCheck
+                        && Just identityElement == (getAt 2 <| Maybe.withDefault [] <| getAt 2 model.combinationTable)
+                        && Just identityElement == (getAt 1 <| Maybe.withDefault [] <| getAt 1 model.combinationTable)
+                        && 4 == (length model.alchemySet)
+                , button [onClick NextPage] [text "give up"]
+                ],
+-}
+         div [] [h2 [] [text "5 by 5 table"]
+                , p [] [text """The previous examples show that the structures of tables 2, 3, and 4 are identical.
+                              Now try to make a 5 by 5 table, notice what way said table can be made, and if there are
+                              any others."""]
+                , button [onClick <| SwapRowAndColumn 1 2] [text "Swap 2nd and 3rd"]
+                , button [onClick <| SwapRowAndColumn 2 3] [text "Swap 3rd and 4th"]
+                , button [onClick <| SwapRowAndColumn 3 4] [text "Swap 4th and 5th"]
+                , nextButtonEnable <| groupCheck && 5 == (length model.alchemySet)
+                ]
             ]
 
         alchemyRange = range 0 (length model.alchemySet - 1)
     in
-  div [] [div [] [Maybe.withDefault (text "Out of Bounds Page") <| getAt model.page pages
+  div [] [div [] [Maybe.withDefault (h1 [] [text "The End"]) <| getAt model.page pages
                  , h2 [] [text "Combination Table"]
                  ]
          , table [] [
