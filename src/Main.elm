@@ -5,9 +5,10 @@ import Html.Events exposing (onClick)
 import Html.Attributes exposing (..)
 import List.Extra exposing (..)
 import List exposing (..)
+
+
 main : Program () Model Msg
-main =
-  Browser.sandbox { init = init, update = update, view = view }
+main = Browser.sandbox { init = init, update = update, view = view }
 
 
 type Selection = TableSelect | SetSelect | Hidden
@@ -20,6 +21,9 @@ type alias Model =
     , elementSelectDisplay: Selection
     , changeTable: Char -> List (List Char)
     , changeSet: Char -> List Char
+    , previousSet: List Char
+--    , mappedSet: List Char
+--    , changeMappingSet: Char -> List Char
     }
 
 
@@ -27,67 +31,73 @@ init : Model
 init = {
     alchemySet = [],
     combinationTable = [],
-    page = 0,
+    page = 9,
     elementSelectDisplay = Hidden,
     changeTable = always [],
-    changeSet = always []}
+    changeSet = always [],
+    previousSet = []
+--    mappedSet = [],
+--    changeMappingSet = always []
+    }
 
-
-
-
-sampleTable : Char -> Char -> Char -> Char -> List (Html msg)
-sampleTable a b a2 b2 = [
- blockquote [] [
-      text "This alchemy is valid - ",
-        table [] [
-            thead [] [
-                th [] [],
-                th [style "border-bottom" "5px solid #111111"] [text <| String.fromChar '💨'],
-                th [style "border-bottom" "5px solid #111111"] [text <| String.fromChar '🌊']
-                ],
-                tr [] [
-                    th [style "border-right" "5px solid #111111"] [text <| String.fromChar '💨'],
-                    td [] [text <| String.fromChar '💨'],
-                    td [] [text <| String.fromChar '🌊']
-                    ],
-                tr [] [
-                    th [style "border-right" "5px solid #111111"] [text <| String.fromChar '🌊'],
-                    td [] [text <| String.fromChar a],
-                    td [] [text <| String.fromChar b]
-                    ]
-            ]
-     ],
-  blockquote [] [
-       text "This alchemy is not - ",
-           table [] [
-                thead [] [
-                     th [] [],
-                     th [style "border-bottom" "5px solid #111111"] [text <| String.fromChar '💨'],
-                     th [style "border-bottom" "5px solid #111111"] [text <| String.fromChar '🌊']
-                    ],
-                tr [] [
-                     th [style "border-right" "5px solid #111111"] [text <| String.fromChar '💨'],
-                     td [] [text <| String.fromChar '💨'], td [] [text <| String.fromChar '🌊']
-                    ],
-                tr [] [
-                     th [style "border-right" "5px solid #111111"] [text <| String.fromChar '🌊'],
-                     td [] [text <| String.fromChar a2], td [] [text <| String.fromChar b2]
-                    ]
-               ]
-      ]
-  ]
 
 
 view : Model -> Html Msg
 view model =
     let
         zip = map2 Tuple.pair
+
+        staticTableTemplate aSet aTable = table [] [
+               thead [] <| concat [
+                    [th [] []],
+                    List.map
+                        (\c -> th [
+                                     style "border-bottom" "5px solid #111111"
+                                    ] [text <| String.fromChar c]
+                        ) <| aSet
+                   ],
+               tbody []
+                   <| List.map
+                    (\(alchemyElement,row) -> tr []
+                         <| append ([
+                              th [
+                                style "border-right" "5px solid #111111"
+                              ] [text <| String.fromChar alchemyElement]
+                             ])
+                   <| List.map
+                         (\c -> td [] [text <| String.fromChar c]) <| row)
+                   <| zip aSet aTable
+              ]
+
+        sampleTable a b a2 b2 = [
+                blockquote [] [
+                    text "This alchemy is valid - ",
+                    staticTableTemplate ['💨','🌊'] [['💨','🌊'],[a,b]]
+                    ],
+                blockquote [] [
+                    text "This alchemy is not - ",
+                    staticTableTemplate ['💨','🌊'] [['💨','🌊'],[a2,b2]]
+                    ]
+                ]
+
+        identityElement = Maybe.withDefault 'I' <| head model.alchemySet
+
         nextButtonEnable cond =
             button [
                  onClick NextPage,
                  disabled <| not cond,
                  style "opacity" <| if cond then "1" else ".5"
                 ] [text "Next"]
+
+        groupCheck = (&&) ((&&) (notMember '_' model.alchemySet
+                                     && Just model.alchemySet == head model.combinationTable
+                                     && Just model.alchemySet == head (transpose model.combinationTable))
+                  <| foldl (&&) True
+                  <| List.map (\c -> member c model.alchemySet)
+                  <| List.concat model.combinationTable)
+                  <| foldl (&&) True
+                  <| List.map (\row -> row == unique row) <| append model.combinationTable <| transpose model.combinationTable
+
         pages = [
          div [] [
               h1 [] [text "Welcome to Abstract Alchemy!"],
@@ -103,12 +113,14 @@ view model =
                                 a 1 by 1 table with the combination of 1 element producing itself."""],
                   nextButtonEnable <| [model.alchemySet] == model.combinationTable && model.alchemySet /= ['_']
              ],
+
          div [] [
               h2 [] [text "Using the Table"],
               p [] [text """Good, now let's play around with the table. Try adding, removing elements, and changing them around.
                             To move on, fill out a 3 by 3 table completely."""],
               nextButtonEnable
                   <| length model.alchemySet == 3 && notMember '_' (model.alchemySet ++ List.concat model.combinationTable)],
+
          div [] <| [h2 [] [text "Alchemical Rules - Closure"],
                                 p [] [text """Let's try our first rule for alchemies, the rule of closure.
                                               The rule of closure is about producing only the same elements
@@ -121,6 +133,7 @@ view model =
                                     <| foldl (&&) True
                                     <| List.map (\c -> member c model.alchemySet) <| List.concat model.combinationTable
                                ],
+
          div [] <| [
               h2 [] [text "Alchemical Rules - Identity"],
               p [] [text """The next rule is the rule of identity. Our alchemy needs to have an identity element, which
@@ -135,6 +148,7 @@ view model =
                         <| Just model.alchemySet == head model.combinationTable
                         && Just model.alchemySet == head (transpose model.combinationTable)
                   ],
+
          div [] <| [
               h2 [] [text "Alchemical Rules - Inverses"],
               p [] [text """The rule of inverses requires that there are no duplicate elements in any rows or columns of
@@ -149,6 +163,7 @@ view model =
                   <| foldl (&&) True
                   <| List.map (\row -> row == unique row) <| append model.combinationTable <| transpose model.combinationTable
              ],
+
          div [] <| [
               h2 [] [text "Alchemical Rules - Commutativity"],
               p [] [text """The rule of commutativity says that the order you combine elements in shouldn't matter.
@@ -160,37 +175,103 @@ view model =
                    <| (&&) (length model.alchemySet == 3 && notMember '_' model.alchemySet)
                    <| model.combinationTable == transpose model.combinationTable
               ],
+
          div [] [
               h2 [] [text "All Alchemical Rules"],
               p [] [text """To move on, make a 3 by 3 table that follows all the rule together: Closure, Identity, Inverses, Commutativity.
                             There is exactly one table that follows all the rules for a 3 by 3 table."""],
-              nextButtonEnable
-                  <| (&&) ((&&) (length model.alchemySet == 3
-                                     && notMember '_' model.alchemySet
-                                     && Just model.alchemySet == head model.combinationTable
-                                     && Just model.alchemySet == head (transpose model.combinationTable))
-                  <| foldl (&&) True
-                  <| List.map (\c -> member c model.alchemySet)
-                  <| List.concat model.combinationTable)
-                  <| foldl (&&) True
-                  <| List.map (\row -> row == unique row) <| append model.combinationTable <| transpose model.combinationTable
-                ],
-         div [] [h2 [] [text "4 by 4 table, part 1"]],
-         div [] [h2 [] [text "4 by 4 table, part 2"]],
-         div [] [h2 [] [text "4 by 4 table, part 3"]],
-         div [] [h2 [] [text "4 by 4 table, part 4"]],
+              nextButtonEnable <| groupCheck && 3 == (length model.alchemySet)],
+
+         div [] [
+              h2 [] [text "Row/Column Swapping"],
+              p [] [text """we can swap the columns or the rows of any alchemy, and everything will stay the same.
+                        Here is a button that will do both to the 2nd and 3rd columns and the 2nd and 3rd rows.
+                        This essentially just swaps the order of the elements, but doesn't change what they do.""" ],
+              button [onClick <| Messages <| [ NextPage, SwapRowAndColumn 1 2 ]] [text "Swap 2nd and 3rd; Next"]
+             ],
+
          div [] [h2 [] [text "Mapping Alchemies"],
                 p [] [text """An alchemy can be changed into another through a mapping.
-                        Mappings take every element in one mapping and change them
+                        Mappings take every element in one alchemy and change them
                         with a corresponding one in another alchemy. Two alchemies
                         are structured the same way if they have a one-to-one Mapping
                         between them. To move on, use the following mapping to turn your
-                        alchemy into another one of the same structure."""],
-                div [] (List.map2 (\c c2 -> p [] [text <| String.fromChar c ++ " → " ++ (String.fromChar c2)]) model.alchemySet <| swapAt 1 2 model.alchemySet)],
+                        alchemy back into the original, before order swapping."""],
+                div [] (List.map2 (\c c2 -> p [] [
+                                             text
+                                                 <| String.fromChar c
+                                                     ++ " → "
+                                                     ++ (String.fromChar c2)
+                                            ]) model.previousSet <| swapAt 1 2 model.previousSet
+                       ),
+                nextButtonEnable <| model.alchemySet == model.previousSet && groupCheck && 3 == (length model.alchemySet)
+                ],
+
+         div [] [
+              h2 [] [text "4 by 4 table, part 1"],
+              p [] [text """Let's now get into some serious alchemy. We want to make a specific structure for your table now.
+                    To move on, make your table one that fills in the missing table from the example below and also follows all
+                            previous rules. The identity element has to be the one provided."""],
+              text "This is your template, fill in the '-' as you see fit while following the rules:",
+              staticTableTemplate [identityElement, '-', '-', '-']
+                  [repeat 4 '-'
+                  ,repeat 4 '-'
+                  , [ '-', '-', '-', identityElement ]
+                  ,repeat 4 '-'],
+              nextButtonEnable
+                  <| groupCheck && Just identityElement
+                  == (getAt 1 <| Maybe.withDefault [] <| getAt 1 model.combinationTable) && 4 == (length model.alchemySet)
+             ],
+
+         div [] [h2 [] [text "4 by 4 table, part 2"]
+            , p [] [text """To move on, make your table one that fills in the new missing table and also follows all
+                            previous rules. The identity element has to be the one provided."""],
+              text "This is your template, fill in the '-' as you see fit while following the rules:",
+              staticTableTemplate [identityElement, '-', '-', '-']
+                  [repeat 4 '-'
+                  , [ '-', '-', '-', identityElement ]
+                  ,repeat 4 '-'
+                  ,repeat 4 '-'],
+              nextButtonEnable
+                  <| groupCheck && Just identityElement
+                  == (getAt 3 <| Maybe.withDefault [] <| getAt 1 model.combinationTable) && 4 == (length model.alchemySet)
+                ],
+
+         div [] [h2 [] [text "4 by 4 table, part 3"]
+            , p [] [text """To move on, make your table one that fills in the new missing table and also follows all
+                            previous rules. The identity element has to be the one provided."""],
+              text "This is your template, fill in the '-' as you see fit while following the rules:",
+              staticTableTemplate [identityElement, '-', '-', '-']
+                  [repeat 4 '-'
+                  , [ '-', '-', identityElement, '-' ]
+                  ,repeat 4 '-'
+                  ,repeat 4 '-'],
+              nextButtonEnable
+                  <| groupCheck && Just identityElement
+                  == (getAt 2 <| Maybe.withDefault [] <| getAt 1 model.combinationTable) && 4 == (length model.alchemySet)
+                ],
+
+         div [] [h2 [] [text "4 by 4 table, part 4"]
+            , p [] [text """To move on, make your table one that fills in the new missing table and also follows all
+                            previous rules. The identity element has to be the one provided."""],
+              text "This is your template, fill in the '-' as you see fit while following the rules:",
+              staticTableTemplate [identityElement, '-', '-', '-']
+                  [repeat 4 '-'
+                  ,repeat 4 '-'
+                  , [ '-', '-', '-', identityElement ]
+                  ,repeat 4 '-'],
+              nextButtonEnable
+                  <| groupCheck && Just identityElement
+                  == (getAt 3 <| Maybe.withDefault [] <| getAt 2 model.combinationTable) && 4 == (length model.alchemySet)
+                ],
+
          div [] [h2 [] [text "Perform a Mapping"]],
+
          div [] [h2 [] [text "Make a Mapping"]],
+
          div [] [h2 [] [text "5 by 5 table"]]
             ]
+
         alchemyRange = range 0 (length model.alchemySet - 1)
     in
   div [] [div [] [Maybe.withDefault (text "Out of Bounds Page") <| getAt model.page pages
@@ -256,13 +337,15 @@ type Msg
     | PushElement
     | ChangeTable Int Int
     | CharSelected Char
+    | SwapRowAndColumn Int Int
+    | Messages (List Msg)
 
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
     NextPage ->
-      {model | page = model.page + 1}
+      {model | previousSet = model.alchemySet, page = model.page + 1}
 
     ChangeSet x ->
         {model | changeSet = \c -> setAt x c model.alchemySet, elementSelectDisplay = SetSelect}
@@ -293,11 +376,19 @@ update msg model =
                 <| List.repeat (length model.alchemySet) '_'
         }
 
-    CharSelected x ->
+    CharSelected c ->
         let
             changedModel =
                 if model.elementSelectDisplay == TableSelect then
-                    {model | combinationTable = model.changeTable x}
-                else {model | alchemySet = model.changeSet x}
+                    {model | combinationTable = model.changeTable c}
+                else {model | alchemySet = model.changeSet c}
         in
         {changedModel | elementSelectDisplay = Hidden}
+
+    SwapRowAndColumn x y ->
+        {model |
+             alchemySet = swapAt x y model.alchemySet,
+             combinationTable = swapAt x y <| transpose <| swapAt x y <| transpose model.combinationTable}
+
+    Messages msgs ->
+        foldl update model msgs
