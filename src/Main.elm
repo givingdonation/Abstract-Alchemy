@@ -1,4 +1,4 @@
-module Main exposing (main)
+port module Main exposing (main)
 import Browser
 import Html exposing (..)
 import Html.Events exposing (onClick)
@@ -8,8 +8,12 @@ import List exposing (..)
 
 
 main : Program () Model Msg
-main = Browser.sandbox { init = init, update = update, view = view }
+main = Browser.element { init = \_ -> initWithCmd, update = updateWithCmd, view = view, subscriptions = \_ -> Sub.none }
 
+initWithCmd : ( Model, Cmd Msg )
+initWithCmd = (init, Cmd.none)
+
+port nextLevelSFX : String -> Cmd msg
 
 type Selection = TableSelect | SetSelect | Hidden
 
@@ -385,6 +389,7 @@ view model =
                           )
                    ]
               ]
+             , audio [ src "./96546__timkahn__the-next-level.wav", id "audio-player", controls True, Html.Attributes.type_ "audio/mpeg",style "display" "none" ] []
          ]
 
 
@@ -398,6 +403,8 @@ type Msg
     | SwapRowAndColumn Int Int
     | Messages (List Msg)
 
+updateWithCmd : Msg -> Model -> (Model, Cmd Msg)
+updateWithCmd msg model = (update msg model, nextLevelSFX "")
 
 update : Msg -> Model -> Model
 update msg model =
