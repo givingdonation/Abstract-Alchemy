@@ -9,7 +9,7 @@ Play an item combination game that definitely won't teach you any concepts from 
 * [sakura](https://oxal.org/projects/sakura/) - Minimal CSS Theme
 
 ## Usage
-Available at [https://givingdonation.github.io/Abstract-Alchemy/](givingdonation.github.io/Abstract-Alchemy).
+Available at [givingdonation.github.io/Abstract-Alchemy](https://givingdonation.github.io/Abstract-Alchemy/).
 
 ## Author
 * **Givingdonation** (https://github.com/givingdonation)
