@@ -1,6 +1,8 @@
 # Abstract Alchemy
 Play an item combination game that definitely won't teach you any concepts from Abstract Algebra.
 
+![logo](https://github.com/givingdonation/Abstract-Alchemy/blob/master/abstract-alchemy-logo.png)
+
 ## Built With
 
 * [Elm](https://elm-lang.org/) - Programming Language
